@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thyroid Check | AI Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation (Mock) -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>Hormonix AI - Developed by Gururaj Surampalli</span>
+            </div>
+            <nav>
+                <a href="#" class="active"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+                <a href="#nutrition"><i class="fa-solid fa-apple-whole"></i> Nutrition</a>
+                <a href="#exercises"><i class="fa-solid fa-person-running"></i> Exercises</a>
+                <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <img src="https://ui-avatars.com/api/?name=GS&background=0D8ABC&color=fff" alt="GS">
+                    <span>Patient Portal</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header>
+                <div>
+                    <h1>Thyroid Function Test Assessment</h1>
+                    <p class="subtitle">Analyze your TSH, T3, and T4 levels with AI-driven recommendations.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-primary" onclick="resetForm()"><i class="fa-solid fa-arrows-rotate"></i>
+                        Reset</button>
+                </div>
+            </header>
+
+            <div class="dashboard-grid">
+                <!-- Data Entry Section -->
+                <div class="card data-entry-card">
+                    <h2>Patient Details & Lab Results</h2>
+                    <form id="thyroidForm">
+                        <div class="form-row">
+                            <div class="input-group">
+                                <label for="patientName">Patient Name</label>
+                                <input type="text" id="patientName" placeholder="e.g. Dhanvantri" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="patientAge">Age</label>
+                                <input type="number" id="patientAge" placeholder="e.g. 35" required min="1" max="120">
+                            </div>
+                            <div class="input-group">
+                                <label for="patientGender">Gender</label>
+                                <select id="patientGender">
+                                    <option value="female">Female</option>
+                                    <option value="male">Male</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <h3>Lab Values</h3>
+                        <p class="help-text">Please enter the values from your most recent blood test.</p>
+
+                        <div class="form-row">
+                            <div class="input-group">
+                                <label for="tsh">TSH Level (mIU/L)</label>
+                                <div class="input-with-icon">
+                                    <i class="fa-solid fa-vial"></i>
+                                    <input type="number" step="0.01" id="tsh" placeholder="Normal: 0.4 - 4.0" required>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="t3">Free T3 (pg/mL)</label>
+                                <div class="input-with-icon">
+                                    <i class="fa-solid fa-vial"></i>
+                                    <input type="number" step="0.01" id="t3" placeholder="Normal: 2.3 - 4.1" required>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="t4">Free T4 (ng/dL)</label>
+                                <div class="input-with-icon">
+                                    <i class="fa-solid fa-vial"></i>
+                                    <input type="number" step="0.01" id="t4" placeholder="Normal: 0.9 - 1.7" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-analyze"><i class="fa-solid fa-microscope"></i> Analyze Full
+                            Report</button>
+                    </form>
+                </div>
+
+                <!-- Results Section -->
+                <div class="card results-card" id="resultsCard" style="display: none;">
+                    <h1>Hormonix AI - Developed by Gururaj Surampalli</h1>
+                    <h2>Assessment Results</h2>
+
+                    <div class="patient-report-info" id="patientReportInfo" style="margin-bottom: 1.5rem; padding: 1rem; background: var(--background); border-radius: 0.5rem; border: 1px solid var(--border); display: flex; gap: 2rem;">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <div class="status-banner" id="statusBanner">
+                        <i class="fa-solid fa-circle-check" id="statusIcon"></i>
+                        <div class="status-info">
+                            <h3 id="diagnosisTitle">Normal Thyroid Function</h3>
+                            <p id="diagnosisDesc">Your levels are within the healthy range. Keep up the good work!</p>
+                        </div>
+                    </div>
+
+                    <div class="metrics-grid">
+                        <div class="metric-box" id="tshBox">
+                            <span class="metric-label">TSH</span>
+                            <span class="metric-value" id="tshRes">--</span>
+                            <span class="metric-status" id="tshStatus">--</span>
+                        </div>
+                        <div class="metric-box" id="t3Box">
+                            <span class="metric-label">Free T3</span>
+                            <span class="metric-value" id="t3Res">--</span>
+                            <span class="metric-status" id="t3Status">--</span>
+                        </div>
+                        <div class="metric-box" id="t4Box">
+                            <span class="metric-label">Free T4</span>
+                            <span class="metric-value" id="t4Res">--</span>
+                            <span class="metric-status" id="t4Status">--</span>
+                        </div>
+                    </div>
+
+                    <div class="recommendations">
+                        <div class="rec-section">
+                            <h4><i class="fa-solid fa-utensils"></i> Diet & Nutrition Restrictions</h4>
+                            <ul id="dietList">
+                                <!-- Populated by JS -->
+                            </ul>
+                        </div>
+                        <div class="rec-section">
+                            <h4><i class="fa-solid fa-dumbbell"></i> Exercise & Lifestyle</h4>
+                            <ul id="exerciseList">
+                                <!-- Populated by JS -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- General Nutrition Section -->
+                <div class="card" id="nutrition">
+                    <h2><i class="fa-solid fa-apple-whole"></i> General Nutrition Guidelines</h2>
+                    <p class="help-text">A balanced diet is essential for maintaining a healthy thyroid. Here are general guidelines:</p>
+                    <div style="margin-top: 1rem;">
+                        <ul style="list-style-position: inside; color: var(--text-muted);">
+                            <li style="margin-bottom: 0.5rem;">Consume adequate iodine, which is crucial for thyroid hormone production (e.g., iodized salt, seafood, dairy).</li>
+                            <li style="margin-bottom: 0.5rem;">Include selenium-rich foods like Brazil nuts, tuna, and eggs to protect the thyroid gland from oxidative stress.</li>
+                            <li style="margin-bottom: 0.5rem;">Ensure sufficient zinc intake through meats, legumes, and seeds to support thyroid hormone synthesis.</li>
+                            <li style="margin-bottom: 0.5rem;">Avoid excessive consumption of soy and raw goitrogenic vegetables (like cabbage and broccoli) if you have an iodine deficiency.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- General Exercises Section -->
+                <div class="card" id="exercises">
+                    <h2><i class="fa-solid fa-person-running"></i> General Exercise Recommendations</h2>
+                    <p class="help-text">Regular physical activity supports overall well-being and metabolic health:</p>
+                    <div style="margin-top: 1rem;">
+                        <ul style="list-style-position: inside; color: var(--text-muted);">
+                            <li style="margin-bottom: 0.5rem;">Engage in at least 150 minutes of moderate aerobic activity or 75 minutes of vigorous aerobic activity a week.</li>
+                            <li style="margin-bottom: 0.5rem;">Incorporate strength training exercises at least two days a week to boost metabolism.</li>
+                            <li style="margin-bottom: 0.5rem;">Practice stress-reducing activities like yoga or tai chi, which can be beneficial, especially for autoimmune thyroid conditions.</li>
+                            <li style="margin-bottom: 0.5rem;">Always consult your healthcare provider before starting any new exercise regimen.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <p class="disclaimer"><i class="fa-solid fa-circle-exclamation"></i> Disclaimer: This tool provides general
+                guidance for informational purposes only and is not a substitute for professional medical advice,
+                diagnosis, or treatment.</p>
+        </main>
+    </div>
+
+    <!-- AI Chatbot Widget -->
+    <div class="chatbot-widget">
+        <button class="chatbot-toggle" id="chatbotToggle">
+            <i class="fa-solid fa-message"></i>
+        </button>
+        <div class="chatbot-panel" id="chatbotPanel">
+            <div class="chatbot-header">
+                <i class="fa-solid fa-robot"></i>
+                <div class="chatbot-title">
+                    <h3>Hormonix AI - Developed by Gururaj Surampalli</h3>
+                    <h4>Thyro Assistant</h4>
+                    <span>Online | Ask me anything</span>
+                </div>
+                <button id="chatbotClose"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="message bot">
+                    Hello! Provide me with your test details above, or ask me any question about thyroid health, food
+                    and exercises!
+                </div>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="chatInput" placeholder="Type your query here..." autocomplete="off">
+                <button id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
